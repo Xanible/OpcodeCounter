@@ -18,8 +18,8 @@ public class Main {
 		List<String> opcodes = new ArrayList<String>();
 		HashMap<String, Integer> malOpcodes = new HashMap<String, Integer>();
 		HashMap<String, Integer> benOpcodes = new HashMap<String, Integer>();
-		File malDir = new File("C:\\Users\\ColbyAdmin\\Desktop\\Test\\Malware");
-		File benDir = new File("C:\\Users\\ColbyAdmin\\Desktop\\Test\\Benign");
+		File malDir = new File("C:\\Users\\ColbyAdmin\\Desktop\\Test files\\Formatted\\Malware");
+		File benDir = new File("C:\\Users\\ColbyAdmin\\Desktop\\Test files\\Formatted\\Benign");
 		File[] malFiles = malDir.listFiles();
 		File[] benFiles = benDir.listFiles();
 		int malAmount = 0, benAmount = 0;
@@ -79,6 +79,7 @@ public class Main {
 		// Calculate and Output results
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\ColbyAdmin\\Desktop\\Test\\results.txt"));
+			BufferedWriter bw1 = new BufferedWriter(new FileWriter("C:\\Users\\ColbyAdmin\\Desktop\\Test\\weights.txt"));
 			for(String s : opcodes) {
 				int opMal, opBen;
 				bw.write(s);
@@ -95,17 +96,20 @@ public class Main {
 				if(benOpcodes.containsKey(s)){
 					opBen = benOpcodes.get(s);
 					bw.write(String.valueOf(opBen));
-					bw.write(" ");
+					bw.newLine();
 				} else {
 					opBen = 0;
 					bw.write(String.valueOf(0));
-					bw.write(" ");
+					bw.newLine();
 				}
 				double value = theEquation3(opMal, opBen, malAmount, benAmount, malFiles.length, benFiles.length);
-				bw.write(Double.toString(value));
-				bw.newLine();
+				bw1.write(s);
+				bw1.write(" ");
+				bw1.write(Double.toString(value));
+				bw1.newLine();
 			}
 			bw.close();
+			bw1.close();
 		} catch (IOException e) {
 			System.out.println("Error writing to source file.");
 		}
